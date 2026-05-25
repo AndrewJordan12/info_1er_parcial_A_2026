@@ -19,7 +19,7 @@ class Bird(arcade.Sprite):
         mass: float = 5,
         radius: float = 12,
         max_impulse: float = 300,
-        power_multiplier: float = 50,
+        power_multiplier: float = 35,
         elasticity: float = 0.8,
         friction: float = 1,
         collision_layer: int = 0,
@@ -45,6 +45,7 @@ class Bird(arcade.Sprite):
 
         self.body = body
         self.shape = shape
+        self.space = space
         self.max_impulse = max_impulse
         self.id = 1
         self.abilityUsed = False
@@ -160,6 +161,8 @@ class YellowBird(Bird):
     
     def boost(self, power_multiplier=2):
         velocity = self.body.velocity
+        if velocity.length == 0:
+            return
         impulse = min(self.max_impulse, velocity.length) * power_multiplier
         impulse_pymunk = impulse * pymunk.Vec2d(1, 0)
         self.body.apply_impulse_at_local_point(impulse_pymunk.rotated(velocity.angle))
@@ -205,7 +208,7 @@ class BlueBird(Bird):
         velocity = self.body.velocity
         speed = velocity.length
         offset = math.radians(separationAngle)
-        scaled = speed * 5 / 50
+        scaled = speed * 5 / 35
         angles = [velocity.angle - offset, velocity.angle, velocity.angle + offset]
         vectors = [ImpulseVector(a, scaled) for a in angles]
 
@@ -217,3 +220,33 @@ class BlueBird(Bird):
         }
         return data
 
+class BlackBird(Bird):
+    def __init__(self, impulse_vector, x, y, space, image_path="assets/img/black.png"):
+        super().__init__(
+            image_path,
+            impulse_vector,
+            x,
+            y,
+            space
+        )
+        self.image_path = image_path
+        self.id = 4
+
+    def special(self):
+        if self.abilityUsed:
+            return None
+        else:
+            self.getBig()
+
+    def getBig(self, scale_factor=3):
+        self.abilityUsed = True
+        scale_x, scale_y = self.scale
+        self.scale = (scale_x * scale_factor, scale_y * scale_factor)
+        new_radius = self.shape.radius * scale_factor
+        self.shape.unsafe_set_radius(new_radius)
+        self.body.mass *= scale_factor * scale_factor
+        self.body.moment = pymunk.moment_for_circle(self.body.mass, 0, new_radius)
+        if self.shape.space is not None:
+            self.shape.space.reindex_shape(self.shape)
+
+    
