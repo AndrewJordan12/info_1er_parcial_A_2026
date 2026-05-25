@@ -25,6 +25,7 @@ class Bird(arcade.Sprite):
         collision_layer: int = 0,
     ):
         super().__init__(image_path, 1)
+        self.scale = (radius * 2) / max(self.width, self.height)
         # body
         moment = pymunk.moment_for_circle(mass, 0, radius)
         body = pymunk.Body(mass, moment)
@@ -44,6 +45,9 @@ class Bird(arcade.Sprite):
 
         self.body = body
         self.shape = shape
+        self.max_impulse = max_impulse
+        self.id = 1
+        self.abilityUsed = False
 
     def update(self, delta_time):
         """
@@ -139,11 +143,27 @@ class YellowBird(Bird):
     (self.body.velocity).
     """
 
-    ### ---------------------- ###
-    ### SU IMPLEMENTACION AQUI ###
-    ### ---------------------- ###
-    pass
-
+    def __init__(self, impulse_vector, x, y, space, image_path="assets/img/yellow.png"):
+        super().__init__(
+            image_path,
+            impulse_vector,
+            x,
+            y,
+            space,
+        )
+        self.id = 2
+    
+    def special(self):
+        if self.abilityUsed:
+            return
+        self.boost()
+    
+    def boost(self, power_multiplier=2):
+        velocity = self.body.velocity
+        impulse = min(self.max_impulse, velocity.length) * power_multiplier
+        impulse_pymunk = impulse * pymunk.Vec2d(1, 0)
+        self.body.apply_impulse_at_local_point(impulse_pymunk.rotated(velocity.angle))
+        self.abilityUsed = True
 
 class BlueBird(Bird):
     """
@@ -163,7 +183,37 @@ class BlueBird(Bird):
     como argumento. Esa decision de diseno es parte del ejercicio.
     """
 
-    ### ---------------------- ###
-    ### SU IMPLEMENTACION AQUI ###
-    ### ---------------------- ###
-    pass
+    def __init__(self, impulse_vector, x, y, space, image_path="assets/img/blue.png"):
+        super().__init__(
+            image_path,
+            impulse_vector,
+            x,
+            y,
+            space
+        )
+        self.image_path = image_path
+        self.id = 3
+
+    def special(self):
+        if self.abilityUsed:
+            return None
+        else:
+            return self.split()
+
+    def split(self, separationAngle = 30):
+        self.abilityUsed = True
+        velocity = self.body.velocity
+        speed = velocity.length
+        offset = math.radians(separationAngle)
+        scaled = speed * 5 / 50
+        angles = [velocity.angle - offset, velocity.angle, velocity.angle + offset]
+        vectors = [ImpulseVector(a, scaled) for a in angles]
+
+        data = {
+            'vectors': vectors,
+            'pos': (self.center_x, self.center_y),
+            'image_path': self.image_path,
+            'original': self,        
+        }
+        return data
+
