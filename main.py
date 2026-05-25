@@ -20,7 +20,7 @@ BIRD_TYPE = 1
 GROUND_TYPE = 2
 PIG_TYPE = 3
 LIMIT_TYPE = 4
-LIMIT_MARGIN = 300
+LIMIT_MARGIN = 400
 
 LEVEL_MAP = {
     1: {'columns': 3, 'pigs': 3, 'score': 100, 'bird': 1},
@@ -126,7 +126,7 @@ class App(arcade.View):
         impulse_norm = arbiter.total_impulse.length
         if impulse_norm < 100:
             return True
-        #logger.debug(impulse_norm)
+        logger.debug(impulse_norm)
         if impulse_norm > 1200:
             for obj in list(self.world):
                 if obj.shape in arbiter.shapes:
@@ -177,16 +177,16 @@ class App(arcade.View):
                 self.start_point = Point2D(x, y)
                 self.end_point = Point2D(x, y)
                 self.draw_line = True
-                #logger.debug(f"Start Point: {self.start_point}")
+                logger.debug(f"Start Point: {self.start_point}")
 
     def on_mouse_drag(self, x: int, y: int, dx: int, dy: int, buttons: int, modifiers: int):
         if buttons == arcade.MOUSE_BUTTON_LEFT and self.isAiming:
             self.end_point = Point2D(x, y)
-            #logger.debug(f"Dragging to: {self.end_point}")
+            logger.debug(f"Dragging to: {self.end_point}")
 
     def on_mouse_release(self, x: int, y: int, button: int, modifiers: int):
         if button == arcade.MOUSE_BUTTON_LEFT and self.isAiming:
-            #logger.debug(f"Releasing from: {self.end_point}")
+            logger.debug(f"Releasing from: {self.end_point}")
             self.draw_line = False
             self.isAiming = False
             impulse_vector = get_impulse_vector(self.start_point, self.end_point)
@@ -250,7 +250,7 @@ class App(arcade.View):
             if pig.shape in arbiter.shapes:
                 self.removeSprite(pig)
                 self.score += 50
-                print(f"Score: {self.score}")
+                logger.debug(f"Score: {self.score}")
                 scoreGoal = self.getLevelInfo()['score']
                 if self.score >= scoreGoal:
                     self.levelUp()
