@@ -24,27 +24,44 @@ cd info_1er_parcial_A_2026
 uv run main.py
 ```
 ### DESCRIPCIÓN DE USO ACÁ
+
+## SlingShot
+
+El usuario hace clic en un `start_point`,
+arrastra hasta un `end_point` y suelta. El pajaro debe salir disparado en
+la direccion OPUESTA al arrastre (como una resortera real):
+
+```
+    start (clic)  *<------ arrastre ------ * end (soltar)
+                   --------> lanzamiento
+```
+No se podrá lanzar otro Bird hasta que el Bird lanzado haya aplicado su habilidad especial.
+
 ## Pajaros con habilidad especial (`game_object.py`)
 
-Se probaran los pajaros en cada nivel, presionar espacio para cambiar de nivel.
+Se probaran los pajaros en cada nivel, presionar la tecla espacio para cambiar de nivel o cumplir la lógica de cambio de nivel descrita en Sistema de Niveles. Para probar las habilidades especiales solo hacer click izquierdo, , los Birds pueden aplicar su habilidad especial solamente
+mientras se encuentran en el aire.
 
 - **YellowBird** - al hacer clic izquierdo mientras esta en vuelo,
   multiplica su impulso por `power_multiplier` (default 2) en la
-  direccion actual de movimiento. Solo una vez por pajaro.
+  direccion actual de movimiento. Solo una vez por pajaro. 
+  NIVEL: 2
 
 - **BlueBird** - al hacer clic izquierdo mientras esta en vuelo, se
   reemplaza por 3 BlueBirds con direcciones separadas +30, 0 y -30
   grados respecto a la direccion actual. La magnitud de la velocidad se
   preserva. Solo una vez por pajaro.
+  NIVEL: 3 y 5
 
 - **BlackBird** - al hacer clic izquierdo mientras esta en vuelo, este escala
   su tamaño y masa por default en 3. Solo una vez por pajaro.
+  NIVEL: 4
 
-### Sistema de niveles
+### Sistema de niveles (main.py)
 
 Existen 5 niveles
-Para avanzar se debe golpear a los Pigs con los Birds, cada Pig da 50 pts 
-Cada nivel tiene un nivel de puntos requerido de 100 pts
-
-Se puede cambiar entre niveles presionando espacio
+Se puede cambiar entre niveles presionando la tecla espacio o mediante 
+llegar a los puntos requeridos por el nivel (default de 100 pts)
+Para ganar puntos se debe golpear a los Pigs con los Birds mediante el Slingshot,
+cada Pig vale 50 pts.
 

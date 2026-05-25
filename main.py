@@ -47,13 +47,16 @@ class App(arcade.View):
         self.space.add(floor_body, floor_shape)
 
         left_wall_body = pymunk.Body(body_type=pymunk.Body.STATIC)
-        left_wall_shape = pymunk.Segment(left_wall_body,[-LIMIT_MARGIN, 0],[20, HEIGHT],0.0)
+        left_wall_shape = pymunk.Segment(left_wall_body, [-LIMIT_MARGIN, -LIMIT_MARGIN], [-LIMIT_MARGIN, HEIGHT + LIMIT_MARGIN],0.0,)
 
         right_wall_body = pymunk.Body(body_type=pymunk.Body.STATIC)
-        right_wall_shape = pymunk.Segment(right_wall_body,[WIDTH - 20, 0],[WIDTH + LIMIT_MARGIN, HEIGHT],0.0)
+        right_wall_shape = pymunk.Segment(right_wall_body, [WIDTH + LIMIT_MARGIN, -LIMIT_MARGIN], [WIDTH + LIMIT_MARGIN, HEIGHT + LIMIT_MARGIN], 0.0,)
 
         roof_body = pymunk.Body(body_type=pymunk.Body.STATIC)
-        roof_shape = pymunk.Segment(roof_body, [-LIMIT_MARGIN, HEIGHT -20],[WIDTH + LIMIT_MARGIN, HEIGHT + LIMIT_MARGIN], 0.0)
+        roof_shape = pymunk.Segment(roof_body, [-LIMIT_MARGIN, HEIGHT + LIMIT_MARGIN],[WIDTH + LIMIT_MARGIN, HEIGHT + LIMIT_MARGIN], 0.0,)
+
+        bottom_body = pymunk.Body(body_type=pymunk.Body.STATIC)
+        bottom_shape = pymunk.Segment( bottom_body, [-LIMIT_MARGIN, -LIMIT_MARGIN],[WIDTH + LIMIT_MARGIN, -LIMIT_MARGIN], 0.0,)
 
         left_wall_shape.collision_type = LIMIT_TYPE
         left_wall_shape.sensor = True
@@ -61,10 +64,13 @@ class App(arcade.View):
         right_wall_shape.sensor = True
         roof_shape.collision_type = LIMIT_TYPE
         roof_shape.sensor = True
+        bottom_shape.collision_type = LIMIT_TYPE
+        bottom_shape.sensor = True
 
         self.space.add(left_wall_body, left_wall_shape)
         self.space.add(right_wall_body, right_wall_shape)
         self.space.add(roof_body, roof_shape)
+        self.space.add(bottom_body, bottom_shape)
 
         handler = self.space.add_collision_handler(BIRD_TYPE, LIMIT_TYPE)
         handler.begin = self.onBirdHitLimit
