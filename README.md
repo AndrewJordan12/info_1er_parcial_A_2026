@@ -36,6 +36,7 @@ la direccion OPUESTA al arrastre (como una resortera real):
                    --------> lanzamiento
 ```
 No se podrá lanzar otro Bird hasta que el Bird lanzado haya aplicado su habilidad especial.
+En el caso del Bird base o rojo (Nivel 1), no se podrá lanzar otro hasta que este haya salido de limites o tocado el suelo.
 
 ## Pajaros con habilidad especial (`game_object.py`)
 
