@@ -19,7 +19,7 @@ class Bird(arcade.Sprite):
         mass: float = 5,
         radius: float = 12,
         max_impulse: float = 300,
-        power_multiplier: float = 35,
+        power_multiplier: float = 30,
         elasticity: float = 0.8,
         friction: float = 1,
         collision_layer: int = 0,
@@ -208,7 +208,7 @@ class BlueBird(Bird):
         velocity = self.body.velocity
         speed = velocity.length
         offset = math.radians(separationAngle)
-        scaled = speed * 5 / 35
+        scaled = speed * 5 / 30
         angles = [velocity.angle - offset, velocity.angle, velocity.angle + offset]
         vectors = [ImpulseVector(a, scaled) for a in angles]
 
@@ -221,7 +221,7 @@ class BlueBird(Bird):
         return data
 
 class BlackBird(Bird):
-    def __init__(self, impulse_vector, x, y, space, image_path="assets/img/black.png"):
+    def __init__(self, impulse_vector, x, y, space, image_path="assets/img/red-bird3.png"):
         super().__init__(
             image_path,
             impulse_vector,

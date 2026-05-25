@@ -24,10 +24,10 @@ LIMIT_MARGIN = 300
 
 LEVEL_MAP = {
     1: {'columns': 3, 'pigs': 3, 'score': 100, 'bird': 1},
-    2: {'columns': 4, 'pigs': 4, 'score': 150, 'bird': 2},
-    3: {'columns': 4, 'pigs': 7, 'score': 200, 'bird': 3},
-    4: {'columns': 5, 'pigs': 7, 'score': 200, 'bird': 4},
-    5: {'columns': 6, 'pigs': 7, 'score': 200, 'bird': 3},
+    2: {'columns': 4, 'pigs': 4, 'score': 100, 'bird': 2},
+    3: {'columns': 4, 'pigs': 7, 'score': 100, 'bird': 3},
+    4: {'columns': 5, 'pigs': 7, 'score': 100, 'bird': 4},
+    5: {'columns': 6, 'pigs': 7, 'score': 100, 'bird': 3},
 }
 LEVELS = len(LEVEL_MAP)
 
@@ -211,7 +211,7 @@ class App(arcade.View):
             1: lambda: Bird(image_path, impulse_vector, x, y, space),
             2: lambda: YellowBird(impulse_vector, x, y, space, "assets/img/yellow.png"),
             3: lambda: BlueBird(impulse_vector, x, y, space, "assets/img/blue.png"),
-            4: lambda: BlackBird(impulse_vector, x, y, space, "assets/img/black.png")
+            4: lambda: BlackBird(impulse_vector, x, y, space, "assets/img/red-bird3.png")
         }
         bird = createMap.get(birdId)()
         bird.shape.collision_type = BIRD_TYPE
