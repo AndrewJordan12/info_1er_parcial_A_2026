@@ -17,7 +17,7 @@ y las dependencias. Una vez instalado uv:
 
 ```bash
 # clone (o forkee) el repositorio y entre a la carpeta
-git clone <su-fork>.git
+git clone https://github.com/AndrewJordan12/info_1er_parcial_A_2026.git
 cd info_1er_parcial_A_2026
 
 # correr el juego (uv crea el entorno automaticamente)
